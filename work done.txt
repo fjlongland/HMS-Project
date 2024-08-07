@@ -1,0 +1,3 @@
+THIS DOC IS JUST TO TRACK DAILY WORK DONE.
+
+08/07-FJ-Set up and tested git repository. Made sure everything is ready for when the real work starts.
