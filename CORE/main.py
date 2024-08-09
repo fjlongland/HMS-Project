@@ -1,3 +1,5 @@
+from fastapi import FastAPI, Depends
+
 print("Hello world")
 
 #TODO: look into what DB to use and 
