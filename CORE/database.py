@@ -10,7 +10,7 @@ DB_URL = f"postgresql://postgres:{encoded_password}@localhost/HMS_DB"
 
 engine = create_engine(DB_URL)
 
-SessionLocal = sessionmaker(autocommmit=False,
+SessionLocal = sessionmaker(#autocommmit=False,
                             autoflush=False,
                             bind=engine)
 
