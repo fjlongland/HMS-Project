@@ -3,6 +3,9 @@ from sqlalchemy.ext.declarative import declarative_base
 from sqlalchemy.orm import sessionmaker
 import urllib.parse
 
+
+
+#we need to decide if we are going to use this or if we are just going to user SQL
 password = "4u2nV@5302P"
 encoded_password = urllib.parse.quote_plus(password)
 

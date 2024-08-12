@@ -6,8 +6,10 @@ import psycopg2
 from psycopg2.extras import RealDictCursor
 from pydantic import BaseModel
 
+#init app
 app = FastAPI()
 
+#gives front and backend permission to send and recieve data
 origins = [
     "http://localhost",
     "http://127.0.0.1:8000",
@@ -21,6 +23,7 @@ app.add_middleware(
     allow_headers=["*"]
 )
 
+#Database connection
 while True:
     try:
         conn = psycopg2.connect(host='localhost',
@@ -42,7 +45,7 @@ async def root():
     return{"message:" "Hi There Traveler!"}
 
 @app.get("/users")
-def get_users(db: Session = Depends(database.get_db)):
+def get_users():    #db: Session = Depends(database.get_db)):
     cursor.execute("""SELECT * FROM users""")
     users = cursor.fetchall()
     return users
@@ -50,6 +53,7 @@ def get_users(db: Session = Depends(database.get_db)):
 class TestInput(BaseModel):
     input: str
 
+#testing getting data from the actual front end
 @app.post("/test")
 async def test_recieve_input(user_input: TestInput):
     print(f"user Input: {user_input.input}")
