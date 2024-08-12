@@ -3,6 +3,11 @@ from fastapi.middleware.cors import CORSMiddleware
 from . import database
 #from sqlalchemy.orm import Session
 from . import models
+import unittest
+
+
+if __name__=="__main__":
+    unittest.main()
 
 #init app
 app = FastAPI()
@@ -36,8 +41,15 @@ def get_users():    #db: Session = Depends(database.get_db)):
 #testing getting data from the actual front end
 @app.post("/test")
 async def test_recieve_input(user_input: models.TestInput):
-    print(f"user Input: {user_input.username, user_input.password}")
+    print(f"username: {user_input.username}")
+    print(f"password: {user_input.password}")
     return{"message": "Input recieved"}
+
+@app.post("/users")
+async def add_user(user_input: models.TestInput):
+    database.cursor.execute(f"""INSERT INTO users (type, user_name, user_password) VALUES (ADMIN, {user_input.username}, {user_input.password})""")
+    
+    return{"message": "user created successfuly!"}
 
 
 

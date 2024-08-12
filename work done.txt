@@ -5,4 +5,6 @@ THIS DOC IS JUST TO TRACK DAILY WORK DONE.
 08/10-FJ-   created user database
             wrote first api query and it works
             connected to postgress database and retriever user values.
- 
+
+08/12-FJ-   connected frontend to api using javascript and made frirst succesful api call to backend
+            cleaned up code to make it easier to read

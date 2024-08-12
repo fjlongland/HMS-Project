@@ -6,7 +6,7 @@ document.getElementById('btnLogin').addEventListener('click', function(){
     const username = document.getElementById('UserName').value;
     const userPW = document.getElementById('PassWord').value;
     //starts the api call by specifying the url and the method(POST)
-    fetch('http://127.0.0.1:8000/test', {
+    fetch('http://127.0.0.1:8000/users', {
         method: 'POST',
         headers: {
             'Content-Type': 'application/json'
