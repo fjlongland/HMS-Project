@@ -1,10 +1,25 @@
-from fastapi import FastAPI, Depends
+from fastapi import FastAPI, Depends, Request
+from fastapi.middleware.cors import CORSMiddleware
 from . import database
 from sqlalchemy.orm import Session
 import psycopg2
 from psycopg2.extras import RealDictCursor
+from pydantic import BaseModel
 
 app = FastAPI()
+
+origins = [
+    "http://localhost",
+    "http://127.0.0.1:8000",
+]
+
+app.add_middleware(
+    CORSMiddleware,
+    allow_origins=["*"],
+    allow_credentials=True,
+    allow_methods=["*"],
+    allow_headers=["*"]
+)
 
 while True:
     try:
@@ -32,7 +47,13 @@ def get_users(db: Session = Depends(database.get_db)):
     users = cursor.fetchall()
     return users
 
+class TestInput(BaseModel):
+    input: str
 
+@app.post("/test")
+async def test_recieve_input(user_input: TestInput):
+    print(f"user Input: {user_input.input}")
+    return{"message": "Input recieved"}
 
 
 

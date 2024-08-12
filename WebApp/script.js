@@ -1,15 +1,19 @@
-const btnLogin = document.getElementById("btnLogin");
+document.getElementById('btnLogin').addEventListener('click', function(){
+    
+    const userInput = document.getElementById('UserName').value;
 
-btnLogin.addEventListener("click", function(){
-    alert("Button was clicked!");
-
-    const username = document.getElementById("UserName").value;
-    const password = document.getElementById("PassWord").value;
-
-    console.log("Username: ", username);
-    console.log("Password: ", password);
-
-    document.getElementById("UserName").value = "";
-    document.getElementById("PassWord").value = "";
-
+    fetch('http://127.0.0.1:8000/test', {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({input: userInput})
+    })
+    .then(response => response.json())
+    .then(data=>{
+        console.log('Success', data);
+    })
+    .catch((error)=>{
+        console.error('Error:', error);
+    });
 });
