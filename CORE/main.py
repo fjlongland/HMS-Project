@@ -1,10 +1,8 @@
-from fastapi import FastAPI, Depends, Request
+from fastapi import FastAPI#, Depends, Request
 from fastapi.middleware.cors import CORSMiddleware
 from . import database
-from sqlalchemy.orm import Session
-import psycopg2
-from psycopg2.extras import RealDictCursor
-from pydantic import BaseModel
+#from sqlalchemy.orm import Session
+from . import models
 
 #init app
 app = FastAPI()
@@ -23,22 +21,6 @@ app.add_middleware(
     allow_headers=["*"]
 )
 
-#Database connection
-while True:
-    try:
-        conn = psycopg2.connect(host='localhost',
-                                dbname='HMS_DB',
-                                user='postgres',
-                                password='4u2nV@5302P',
-                                cursor_factory=RealDictCursor
-                                )
-        cursor = conn.cursor()
-        print("connection successful")
-        break
-
-    except Exception as error:
-        print("Connection failed")
-
 #first API call for testing
 @app.get("/")
 async def root():
@@ -46,17 +28,15 @@ async def root():
 
 @app.get("/users")
 def get_users():    #db: Session = Depends(database.get_db)):
-    cursor.execute("""SELECT * FROM users""")
-    users = cursor.fetchall()
+    database.cursor.execute("""SELECT * FROM users""")
+    users = database.cursor.fetchall()
     return users
 
-class TestInput(BaseModel):
-    input: str
 
 #testing getting data from the actual front end
 @app.post("/test")
-async def test_recieve_input(user_input: TestInput):
-    print(f"user Input: {user_input.input}")
+async def test_recieve_input(user_input: models.TestInput):
+    print(f"user Input: {user_input.username, user_input.password}")
     return{"message": "Input recieved"}
 
 

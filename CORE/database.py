@@ -2,6 +2,8 @@ from sqlalchemy import create_engine
 from sqlalchemy.ext.declarative import declarative_base
 from sqlalchemy.orm import sessionmaker
 import urllib.parse
+import psycopg2
+from psycopg2.extras import RealDictCursor
 
 
 
@@ -24,3 +26,19 @@ def get_db():
         yield db
     finally:
         db.close()
+
+#Database connection
+while True:
+    try:
+        conn = psycopg2.connect(host='localhost',
+                                dbname='HMS_DB',
+                                user='postgres',
+                                password='4u2nV@5302P',
+                                cursor_factory=RealDictCursor
+                                )
+        cursor = conn.cursor()
+        print("connection successful")
+        break
+
+    except Exception as error:
+        print("Connection failed")
