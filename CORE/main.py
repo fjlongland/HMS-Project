@@ -45,7 +45,7 @@ async def test_recieve_input(user_input: models.TestInput):
     print(f"password: {user_input.password}")
     return{"message": "Input recieved"}
 
-@app.post("/users")
+#@app.post("/users")
 async def add_user(user_input: models.TestInput):
     database.cursor.execute(f"""INSERT INTO users (type, user_name, user_password) VALUES (ADMIN, {user_input.username}, {user_input.password})""")
     
@@ -59,8 +59,7 @@ async def add_user(user_input: models.TestInput):
 
 #//////////////////////////////////////////////////////////////
 
-#TODO: decide if we need to use sqlalchemy or
-#      if were just going to use normal sql
+#TODO change all sql to sqlalchemy
 
 #TODO: look into what DB to use and 
 #      make shure the cloud hosting works.
