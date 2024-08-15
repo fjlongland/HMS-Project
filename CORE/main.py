@@ -35,10 +35,6 @@ app.add_middleware(
 
 app.include_router(users.router)
 
-
-
-
-
 #first API call for testing
 @app.get("/")
 async def root():

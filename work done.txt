@@ -9,4 +9,7 @@ THIS DOC IS JUST TO TRACK DAILY WORK DONE.
 08/12-FJ-   connected frontend to api using javascript and made frirst succesful api call to backend
             cleaned up code to make it easier to read
 
-08/14-FJ&Jason- has second meeting to discuss future workflow and tasks
+08/15-FJ-   finished adding all CRUD operation API queries 
+            Added response model for users
+            Had a git merge conflict witch was fun(just kill me next time)
+            tested all api calls using post man and they all work
