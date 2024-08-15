@@ -1,9 +1,8 @@
 from .. import models, schemas
-from fastapi import APIRouter, Depends
+from fastapi import Depends, APIRouter
+#from typing import List
 from sqlalchemy.orm import Session
-from ..database import get_db
-from .. import models
-from typing import List
+from ..database import *
 
 router = APIRouter(
     prefix="/users",
@@ -12,14 +11,18 @@ router = APIRouter(
 
 
 
-@router.get("/users", response_model=List[schemas.User])
+@router.get("/") #response_model=List[schemas.User])
 def show_all_users(db: Session = Depends(get_db)):
     users = db.query(models.User).all()
     return users
 
 #testing getting data from the actual front end
 @router.post("/")
-async def test_recieve_input(user_input: schemas.User):
-    print(f"username: {user_input.username}")
-    print(f"password: {user_input.password}")
-    return{"message": "Input recieved"}
+def add_new_user(user: schemas.UserCreate, 
+                 db: Session = Depends(get_db)):
+    new_user = models.User(**user.dict())
+    db.add(new_user)
+    db.commit()
+    db.refresh(new_user)
+
+    return new_user
