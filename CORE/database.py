@@ -15,7 +15,7 @@ DB_URL = f"postgresql://postgres:{encoded_password}@localhost/HMS_DB"
 
 engine = create_engine(DB_URL)
 
-SessionLocal = sessionmaker(#autocommmit=False,
+SessionLocal = sessionmaker(autocommmit=False,
                             autoflush=False,
                             bind=engine)
 
@@ -27,18 +27,20 @@ def get_db():
     finally:
         db.close()
 
-#Database connection
-while True:
-    try:
-        conn = psycopg2.connect(host='localhost',
-                                dbname='HMS_DB',
-                                user='postgres',
-                                password='4u2nV@5302P',
-                                cursor_factory=RealDictCursor
-                                )
-        cursor = conn.cursor()
-        print("connection successful")
-        break
 
-    except Exception as error:
-        print("Connection failed")
+#////////////////////////////Database connection when not using SQLalchemy//////////////////////////////////////
+#Database connection
+#while True:
+ #   try:
+ #       conn = psycopg2.connect(host='localhost',
+ #                               dbname='HMS_DB',
+ #                               user='postgres',
+ #                               password='4u2nV@5302P',
+ #                               cursor_factory=RealDictCursor
+ #                               )
+ #       cursor = conn.cursor()
+ #       print("connection successful")
+ #       break
+ #
+ #   except Exception as error:
+ #       print("Connection failed")
