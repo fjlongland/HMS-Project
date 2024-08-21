@@ -1,4 +1,4 @@
-from .. import models, schemas
+from .. import models, schemas, utils
 from fastapi import Depends, APIRouter, HTTPException, status, Response
 from typing import List
 from sqlalchemy.orm import Session
@@ -17,9 +17,13 @@ def show_all_users(db: Session = Depends(get_db)):
     return users
 
 #Add new user to the database
-@router.post("/", response_model=schemas.UserResponse)
+@router.post("/", status_code=status.HTTP_201_CREATED, 
+             response_model=schemas.UserResponse)
 def add_new_user(user: schemas.UserCreate, 
                  db: Session = Depends(get_db)):
+    
+    user.password = utils.hash(user.password)
+
     new_user = models.User(**user.dict())
     db.add(new_user)
     db.commit()
