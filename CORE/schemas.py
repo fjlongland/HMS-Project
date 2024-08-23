@@ -33,7 +33,20 @@ class TokenData(BaseModel):
 class Post(BaseModel):
     id: int
 
+    class Config:
+        orm_mode = True 
+
 class PostCreate(BaseModel):
     title: str
     content: str
     post_type: str
+
+    class Config:
+        orm_mode = True 
+
+class PostResponse(BaseModel):
+    title: str
+    content: str
+
+    class Config:
+        orm_mode = True 

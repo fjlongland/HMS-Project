@@ -1,4 +1,4 @@
-from .. import models, schemas, utils
+from .. import models, schemas
 from fastapi import Depends, APIRouter, HTTPException, status, Response
 from typing import List
 from sqlalchemy.orm import Session
@@ -6,15 +6,16 @@ from ..database import *
 
 router = APIRouter(prefix="/posts", 
                    tags=["posts"])
-
-@router.get("/")
+#get list of all posts
+@router.get("/", response_model=List[schemas.PostResponse])
 def show_all_posts(db: Session = Depends(get_db)):
 
     posts = db.query(models.Post).all()
 
     return posts
 
-@router.post("/")
+#create a new post
+@router.post("/", response_model=schemas.PostResponse)
 def create_new_post(post: schemas.PostCreate, 
                     db: Session = Depends(get_db)):
 
@@ -25,7 +26,8 @@ def create_new_post(post: schemas.PostCreate,
 
     return new_post
 
-@router.get("/{id}")
+##return specific post by id
+@router.get("/{id}", response_model=schemas.PostResponse)
 def get_one_post(id: int,
                  db: Session = Depends(get_db)):
     
@@ -34,8 +36,8 @@ def get_one_post(id: int,
 
     return post
 
-
-@router.put("/{id}")
+#update a specific post
+@router.put("/{id}", response_model=schemas.PostResponse)
 def update_post(id: int,
                 post: schemas.PostCreate,
                 db: Session = Depends(get_db)):
@@ -53,6 +55,7 @@ def update_post(id: int,
 
     return existing_post.first() 
 
+#delete a specific post by id
 @router.delete("/{id}")
 def delete_post(id: int,
                 db: Session = Depends(get_db)):

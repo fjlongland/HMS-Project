@@ -13,3 +13,11 @@ THIS DOC IS JUST TO TRACK DAILY WORK DONE.
             Added response model for users
             Had a git merge conflict witch was fun(just kill me next time)
             tested all api calls using post man and they all work
+
+08/23-FJ-   I forgor to do the stand up last time...
+                -implemented password hashing 
+                -implemented JWT token generations
+            today...
+                -added all CRUD api calls for posts 
+                -created post table in DB 
+                
