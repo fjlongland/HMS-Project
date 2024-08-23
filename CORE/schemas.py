@@ -29,3 +29,11 @@ class Token(BaseModel):
 
 class TokenData(BaseModel):
     id: Optional[int] = None
+
+class Post(BaseModel):
+    id: int
+
+class PostCreate(BaseModel):
+    title: str
+    content: str
+    post_type: str

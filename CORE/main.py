@@ -4,7 +4,7 @@ from . import database
 #from sqlalchemy.orm import Session
 from . import models
 import unittest
-from .routers import users, auth
+from .routers import users, auth, posts
 from .database import engine
 
 
@@ -35,6 +35,7 @@ app.add_middleware(
 
 #/////////////ROUTERS/////////////////////////
 
+app.include_router(posts.router)
 app.include_router(users.router)
 app.include_router(auth.router)
 

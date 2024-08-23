@@ -4,10 +4,8 @@ from typing import List
 from sqlalchemy.orm import Session
 from ..database import *
 
-router = APIRouter(
-    prefix="/users",
-    tags=["users"])
-
+router = APIRouter(prefix="/users",
+                   tags=["users"])
 
 
 #Display all users in the database
@@ -61,7 +59,7 @@ def update_user(user: schemas.UserCreate,
 @router.delete("/{id}")
 def delete_user(id: int, 
                 db: Session = Depends(get_db)):
-    unwanted_user = db.query(models.User).filter(models.User.id == id)
+    unwanted_user = db.query(models.User).filter(models.User.id == id).first()
 
     if unwanted_user == None:
         raise HTTPException(status_code=status.HTTP_404_NOT_FOUND, detail=f"no user with id: {id} exists.")
