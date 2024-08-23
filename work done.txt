@@ -20,4 +20,4 @@ THIS DOC IS JUST TO TRACK DAILY WORK DONE.
             today...
                 -added all CRUD api calls for posts 
                 -created post table in DB 
-                
+                -added response model to post operations
