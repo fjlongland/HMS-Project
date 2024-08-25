@@ -26,3 +26,6 @@ THIS DOC IS JUST TO TRACK DAILY WORK DONE.
             i have had little success.
             i had to delete my dev branch because i messed up the code so backend
             thank you git
+            finally had a break through with file uploads ... 
+            user can now select a video file to upload on the website and it
+            will be stored in a target directory through the API
