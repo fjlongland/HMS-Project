@@ -1,8 +1,10 @@
 from .. import models, schemas
-from fastapi import Depends, APIRouter, HTTPException, status, Response
+from fastapi import Depends, APIRouter, HTTPException, status, Response, File, UploadFile
+from fastapi.responses import JSONResponse
 from typing import List
 from sqlalchemy.orm import Session
 from ..database import *
+import shutil
 
 router = APIRouter(prefix="/posts", 
                    tags=["posts"])
@@ -69,3 +71,20 @@ def delete_post(id: int,
     db.commit()
 
     return Response(status_code=status.HTTP_204_NO_CONTENT)
+
+#////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+@router.post("/upload/")
+async def upload_file_from_frontend(file: UploadFile = File(...)):
+    
+    if not file.filename.endswith('.mp4'):
+        raise HTTPException(status_code=status.HTTP_400_BAD_REQUEST, detail="File must be of type .mp4")
+    
+    try:
+        file_location = f"C:\\Users\\Admin\\Desktop\\HMS tets file destination\Destination\\{file.filename}"
+        with open(file_location, "wb") as buffer:
+            shutil.copyfileobj(file.file, buffer)
+
+        return JSONResponse(content={"filename": file.filename})
+     
+    except Exception as e:
+        return JSONResponse(content={"error": str(e)}, status_code=500)
