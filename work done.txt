@@ -21,3 +21,8 @@ THIS DOC IS JUST TO TRACK DAILY WORK DONE.
                 -added all CRUD api calls for posts 
                 -created post table in DB 
                 -added response model to post operations
+
+08/25-FJ-   i have been trying to figure out unit tests for a long tome now but 
+            i have had little success.
+            i had to delete my dev branch because i messed up the code so backend
+            thank you git
