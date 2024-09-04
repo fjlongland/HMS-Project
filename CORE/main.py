@@ -1,15 +1,16 @@
 from fastapi import FastAPI#, Depends, Request
 from fastapi.middleware.cors import CORSMiddleware
-from . import database
+#from . import database
 #from sqlalchemy.orm import Session
 from . import models
-import unittest
+#import unittest
 from .routers import users, auth, posts
 from .database import engine
+#import subprocess
 
 
-if __name__=="__main__":
-    unittest.main()
+#if __name__=="__main__":
+    #subprocess.run(["uvicorn", "CORE.main:app", "--reload"])
 
 models.Base.metadata.create_all(bind=engine)
 

@@ -1,4 +1,4 @@
-from .. import models, schemas
+from .. import models, schemas, oauth2
 from fastapi import Depends, APIRouter, HTTPException, status, Response, File, UploadFile
 from fastapi.responses import JSONResponse
 from typing import List
@@ -19,9 +19,10 @@ def show_all_posts(db: Session = Depends(get_db)):
 #create a new post
 @router.post("/", response_model=schemas.PostResponse)
 def create_new_post(post: schemas.PostCreate, 
-                    db: Session = Depends(get_db)):
+                    db: Session = Depends(get_db),
+                    current_user: int = Depends(oauth2.get_current_user)):
 
-    new_post = models.Post(**post.dict())
+    new_post = models.Post(user_id_fk=current_user.id,**post.dict())
     db.add(new_post)
     db.commit()
     db.refresh(new_post)
