@@ -1,4 +1,4 @@
-from .. import models, schemas, utils
+from .. import models, schemas, utils, storage
 from fastapi import Depends, APIRouter, HTTPException, status, Response
 from typing import List
 from sqlalchemy.orm import Session
@@ -26,6 +26,10 @@ def add_new_user(user: schemas.UserCreate,
     db.add(new_user)
     db.commit()
     db.refresh(new_user)
+
+    if user.type == "ADMIN" or "PROFFESSOR":
+
+        storage.add_new_dir(str(new_user.id))
 
     return new_user
 
