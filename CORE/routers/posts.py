@@ -75,17 +75,25 @@ def delete_post(id: int,
 
 #////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 @router.post("/upload/")
-async def upload_file_from_frontend(file: UploadFile = File(...)):
+async def upload_file_from_frontend(file: UploadFile = File(...), 
+                                    current_user: int = Depends(oauth2.get_current_user),
+                                    db: Session = Depends(get_db)):
     
     if not file.filename.endswith('.mp4'):
         raise HTTPException(status_code=status.HTTP_400_BAD_REQUEST, detail="File must be of type .mp4")
     
     try:
-        file_location = f"C:\\Users\\Admin\\Desktop\\HMS tets file destination\Destination\\{file.filename}"
+        file_location = f"C:\\Users\\Admin\\Desktop\\HMS tets file destination\Destination\\{current_user.id}\\{file.filename}"
         with open(file_location, "wb") as buffer:
             shutil.copyfileobj(file.file, buffer)
 
+        #new_post = models.Post(user_id_fk=current_user.id)
+        #db.add(new_post)
+        #db.commit()
+        #db.refresh(new_post)
+
         return JSONResponse(content={"filename": file.filename})
-     
+    
+    
     except Exception as e:
         return JSONResponse(content={"error": str(e)}, status_code=500)

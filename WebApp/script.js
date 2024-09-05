@@ -52,9 +52,14 @@ document.getElementById('uploadButton').addEventListener('click', async function
         const formData = new FormData();
         formData.append('file', file);
 
+        const token = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyX2lkIjozLCJleHAiOjE3MjU1Mzc1NzF9.jmBpiyPP5OJcscbAmMMqR6HjhtENzPIH5lkmLyEygs4"
+
         try {
             const response = await fetch('http://127.0.0.1:8000/posts/upload/', {
                 method: 'POST',
+                headers: {
+                    'Authorization': 'Bearer '+token,
+                }, 
                 body: formData
             });
 
