@@ -22,7 +22,7 @@ def create_new_post(post: schemas.PostCreate,
                     db: Session = Depends(get_db),
                     current_user: int = Depends(oauth2.get_current_user)):
 
-    new_post = models.Post(user_id_fk=current_user.id,**post.dict())
+    new_post = models.Post(user_id_fk=current_user.user_id,**post.dict())
     db.add(new_post)
     db.commit()
     db.refresh(new_post)
@@ -34,7 +34,7 @@ def create_new_post(post: schemas.PostCreate,
 def get_one_post(id: int,
                  db: Session = Depends(get_db)):
     
-    post = db.query(models.Post).filter(models.Post.id == id).first()
+    post = db.query(models.Post).filter(models.Post.post_id == id).first()
     print(post.title)
 
     return post
@@ -45,7 +45,7 @@ def update_post(id: int,
                 post: schemas.PostCreate,
                 db: Session = Depends(get_db)):
     
-    existing_post = db.query(models.Post).filter(models.Post.id == id)
+    existing_post = db.query(models.Post).filter(models.Post.post_id == id)
 
     new_post = existing_post.first()
 
@@ -63,12 +63,12 @@ def update_post(id: int,
 def delete_post(id: int,
                 db: Session = Depends(get_db)):
     
-    unwanted_post = db.query(models.Post).filter(models.Post.id == id).first()
+    unwanted_post = db.query(models.Post).filter(models.Post.post_id == id).first()
 
     if unwanted_post == None:
         raise HTTPException(status_code=status.HTTP_404_NOT_FOUND, detail=f"no post with id:{id} exhists.")
     
-    unwanted_post.delete()
+    db.delete(unwanted_post)
     db.commit()
 
     return Response(status_code=status.HTTP_204_NO_CONTENT)
@@ -83,7 +83,7 @@ async def upload_file_from_frontend(file: UploadFile = File(...),
         raise HTTPException(status_code=status.HTTP_400_BAD_REQUEST, detail="File must be of type .mp4")
     
     try:
-        file_location = f"C:\\Users\\Admin\\Desktop\\HMS tets file destination\Destination\\{current_user.id}\\{file.filename}"
+        file_location = f"C:\\Users\\Admin\\Desktop\\HMS tets file destination\Destination\\{current_user.user_id}\\{file.filename}"
         with open(file_location, "wb") as buffer:
             shutil.copyfileobj(file.file, buffer)
 

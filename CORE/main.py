@@ -14,8 +14,6 @@ import os
 #if __name__=="__main__":
     #subprocess.run(["uvicorn", "CORE.main:app", "--reload"])
 
-print(settings.dict())
-
 models.Base.metadata.create_all(bind=engine)
 
 #init app

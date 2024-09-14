@@ -27,9 +27,9 @@ def add_new_user(user: schemas.UserCreate,
     db.commit()
     db.refresh(new_user)
 
-    if user.type == "ADMIN" or "PROFFESSOR":
+    if user.user_type == "ADMIN" or "PROFFESSOR":
 
-        storage.add_new_dir(str(new_user.id))
+        storage.add_new_dir(str(new_user.user_id))
 
     return new_user
 
@@ -37,7 +37,7 @@ def add_new_user(user: schemas.UserCreate,
 @router.get("/{id}", response_model=schemas.UserResponse)
 def get_one_user(id: int, 
                  db: Session = Depends(get_db)):
-    user = db.query(models.User).filter(models.User.id == id).first()
+    user = db.query(models.User).filter(models.User.user_id == id).first()
     print(user.username)
     return user
 
@@ -46,7 +46,7 @@ def get_one_user(id: int,
 def update_user(user: schemas.UserCreate, 
                 id: int, 
                 db: Session = Depends(get_db)):
-    existing_user =db.query(models.User).filter(models.User.id == id)
+    existing_user =db.query(models.User).filter(models.User.user_id == id)
 
     new_user = existing_user.first()
 
@@ -63,12 +63,12 @@ def update_user(user: schemas.UserCreate,
 @router.delete("/{id}")
 def delete_user(id: int, 
                 db: Session = Depends(get_db)):
-    unwanted_user = db.query(models.User).filter(models.User.id == id).first()
+    unwanted_user = db.query(models.User).filter(models.User.user_id == id).first()
 
     if unwanted_user == None:
         raise HTTPException(status_code=status.HTTP_404_NOT_FOUND, detail=f"no user with id: {id} exists.")
     
-    unwanted_user.delete()
+    db.delete(unwanted_user)
     db.commit()
 
     return Response(status_code=status.HTTP_204_NO_CONTENT)

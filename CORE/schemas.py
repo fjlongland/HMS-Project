@@ -11,13 +11,14 @@ class User(BaseModel):
 class UserCreate(BaseModel):
     username: str
     password: str
-    type: str
+    user_email: str
+    user_type: str
 
     class Config:
         orm_mode = True  
 
 class UserResponse(BaseModel):
-    id: int
+    user_id: int
     username: str
 
     class Config:
@@ -28,10 +29,10 @@ class Token(BaseModel):
     token_type: str
 
 class TokenData(BaseModel):
-    id: Optional[int] = None
+    user_id: Optional[int] = None
 
 class Post(BaseModel):
-    id: int
+    post_id: int
 
     class Config:
         orm_mode = True 
