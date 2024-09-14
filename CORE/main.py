@@ -6,11 +6,15 @@ from . import models
 #import unittest
 from .routers import users, auth, posts
 from .database import engine
+from .config import settings
+import os
 #import subprocess
 
 
 #if __name__=="__main__":
     #subprocess.run(["uvicorn", "CORE.main:app", "--reload"])
+
+print(settings.dict())
 
 models.Base.metadata.create_all(bind=engine)
 

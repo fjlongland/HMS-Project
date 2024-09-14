@@ -4,14 +4,15 @@ from sqlalchemy.orm import sessionmaker
 import urllib.parse
 import psycopg2
 from psycopg2.extras import RealDictCursor
+from .config import settings
 
 
 
 #we need to decide if we are going to use this or if we are just going to user SQL
-password = "4u2nV@5302P"
+password = settings.db_password
 encoded_password = urllib.parse.quote_plus(password)
 
-DB_URL = f"postgresql://postgres:{encoded_password}@localhost/HMS_DB"
+DB_URL = f"postgresql://{settings.db_username}:{encoded_password}@{settings.db_hostname}:{settings.db_port}/{settings.db_name}"
 
 engine = create_engine(DB_URL)
 
