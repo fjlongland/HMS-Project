@@ -41,9 +41,6 @@ document.getElementById('fileInput').addEventListener('change', function(event){
 
 
 
-
-
-
 async function loginUser(username, password){
 
     try{
