@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Create new user</title>
+</head>
+<body>
+    <label>Username: </label>
+    <input type="text" id="newUserName">
+    <br>
+    <label>Password: </label>
+    <input type="text" id="newPassword">
+    <br>
+    <label>Email: </label>
+    <input type="text" id="newEmail">
+    <br>
+    <label>User Type: </label>
+    <br>
+    <input type="radio" name="user_type" value="STUDENT" id="rStudent">
+    <label>Student</label>
+    <br>
+    <input type="radio" name="user_type" value="PROFESSOR" id="rProfessor">
+    <Label>Professor</Label>
+    <br>
+    <input type="radio" name="user_type" value="ADMIN" id="rAdmin">
+    <Label>Admin</Label>
+    <br>
+    <br>
+    <button id="btnSubmit">Submit</button>
+    <p id="result"></p>
+    <br>
+    <br>
+    <a href="./loginPage.html">
+        <button>Back</button>
+    </a>
+    <script src="script.js"></script>
+</body>
+</html>
