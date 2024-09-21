@@ -38,12 +38,6 @@ document.getElementById('fileInput').addEventListener('change', function(event){
         alert("File chosen: ${file.name}, size: ${file.size} bytes");
     }
 });
-
-<<<<<<< HEAD
-
-
-=======
->>>>>>> devFJ
 async function loginUser(username, password){
 
     try{
