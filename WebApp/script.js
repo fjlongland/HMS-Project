@@ -92,7 +92,7 @@ document.getElementById('uploadButton').addEventListener('click', async function
         formData.append('file', file);
 
         //const token = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyX2lkIjozLCJleHAiOjE3MjU1Mzc1NzF9.jmBpiyPP5OJcscbAmMMqR6HjhtENzPIH5lkmLyEygs4"
-        var token = await loginUser("ADMIN", "1234")
+        var token = await loginUser("user1", "user1")
 
         try {
             const response = await fetch('http://127.0.0.1:8000/posts/upload/', {
