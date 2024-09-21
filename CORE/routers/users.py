@@ -1,5 +1,5 @@
 from .. import models, schemas, utils, storage
-from fastapi import Depends, APIRouter, HTTPException, status, Response
+from fastapi import Depends, APIRouter, HTTPException, status, Response, Form
 from typing import List
 from sqlalchemy.orm import Session
 from ..database import *
@@ -16,18 +16,21 @@ def show_all_users(db: Session = Depends(get_db)):
 
 #Add new user to the database
 @router.post("/", status_code=status.HTTP_201_CREATED, 
-             response_model=schemas.UserResponse)
-def add_new_user(user: schemas.UserCreate, 
-                 db: Session = Depends(get_db)):
+                response_model=schemas.UserResponse)
+def add_new_user(username: str = Form(...),
+                password: str = Form(...),
+                user_email: str = Form(...),
+                user_type: str = Form(...),
+                db: Session = Depends(get_db)):
     
-    user.password = utils.hash(user.password)
+    hashed_password = utils.hash(password)
 
-    new_user = models.User(**user.dict())
+    new_user = models.User(username=username, password=hashed_password, user_email=user_email, user_type=user_type)
     db.add(new_user)
     db.commit()
     db.refresh(new_user)
 
-    if user.user_type == "ADMIN" or "PROFFESSOR":
+    if user_type == "ADMIN" or "PROFFESSOR":
 
         storage.add_new_dir(str(new_user.user_id))
 
