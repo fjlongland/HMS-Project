@@ -1,5 +1,6 @@
 from pydantic import BaseModel
 from typing import Optional
+from fastapi import Form
 
 class User(BaseModel):
     username: str
@@ -10,9 +11,9 @@ class User(BaseModel):
 
 class UserCreate(BaseModel):
     username: str
-    password: str
-    user_email: str
-    user_type: str
+    password: str 
+    user_email: str 
+    user_type: str 
 
     class Config:
         orm_mode = True  

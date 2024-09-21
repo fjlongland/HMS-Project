@@ -39,11 +39,6 @@ document.getElementById('fileInput').addEventListener('change', function(event){
     }
 });
 
-
-
-
-
-
 async function loginUser(username, password){
 
     try{
@@ -116,28 +111,4 @@ document.getElementById('uploadButton').addEventListener('click', async function
     } else {
         alert('Please select a file first.');
     }
-});
-
-document.getElementById("btnSubmit").addEventListener("click", async function(event){
-    event.preventDefault();
-
-    const newUserName = document.getElementById("newUserName").value;
-    const newPassword = document.getElementById("newPassword").value;
-    const newEmail = document.getElementById("newEmail").value;
-
-    let selectedOption;
-    const radios = document.getElementsByName("user_type");
-
-    for (let radio of radios){
-        if (radio.checked){
-            selectedOption = radio.value;
-            break;
-        }
-    }
-
-    if (!selectedOption){
-        selectedOption = "no user type selected!";
-    }
-
-    console.log("submit pressed")
 });
