@@ -31,3 +31,17 @@ THIS DOC IS JUST TO TRACK DAILY WORK DONE.
             will be stored in a target directory through the API
 
 09/08-Jason-Ek sit net hierdie in om iets te toets.
+
+09/14-FJ-   i havent been updating this doc very well but this is what happened in the past 2 weeks:
+    	    -updatred the database to final form
+            -updated all the code to reflect new databse attributes
+            -added basic file handling system that creates new sub repo in target directory 
+            -added front end functionality that allows users to log in from the testing front end website
+            -api now stores the url to the video after user uploads the video in the posts database
+            -videos uploaded bu a specific uses gets saved in their specific sub directory in the destination directory
+            -added environment variables and a .env folder to keep sensitive info safe
+            -(finaly) added a .gitignore file so i dont upload everything to git when commiting changes.
+
+09/21-FJ-   its been a while but now that exams are over i can redouble my efforts hierdie
+            to start off strong ive been working on moving away from postman and integrating allmy calls to the testing frontend
+            today i added some web pages (landing page and create user) user can now create an account from the website.

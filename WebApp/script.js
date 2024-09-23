@@ -15,7 +15,6 @@ document.getElementById('btnLogin').addEventListener('click', async function(){
 
     
 });
-
 async function loginUser(username, password){
 
     try{
