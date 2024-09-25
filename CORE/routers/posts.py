@@ -88,7 +88,12 @@ async def upload_file_from_frontend(file: UploadFile = File(...),
         with open(file_location, "wb") as buffer:
             shutil.copyfileobj(file.file, buffer)
 
-        new_post = models.Post(user_id_fk=current_user.user_id, title=file.filename, post_type="video", content="video", post_url=file_location)
+        new_post = models.Post(user_id_fk=current_user.user_id, 
+                               title=file.filename, 
+                               post_type="video", 
+                               content="video", 
+                               post_url=file_location, 
+                               ass_id_fk= 3)
         db.add(new_post)
         db.commit()
 
