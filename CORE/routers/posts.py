@@ -5,6 +5,7 @@ from typing import List
 from sqlalchemy.orm import Session
 from ..database import *
 import shutil
+from pathlib import Path
 
 router = APIRouter(prefix="/posts", 
                    tags=["posts"])
@@ -96,3 +97,18 @@ async def upload_file_from_frontend(file: UploadFile = File(...),
     
     except Exception as e:
         return JSONResponse(content={"error": str(e)}, status_code=500)
+
+@router.get("/video/")
+async def list_videos(db: Session = Depends(get_db), 
+                      currnet_user: int = Depends(oauth2.get_current_user)):
+    
+    video_titles = db.query(models.Post.title).filter(models.Post.user_id_fk == currnet_user.user_id,
+                                                      models.Post.post_type == "video").all()
+    
+    videos = [{"title": title[0]} for title in video_titles]
+
+    return videos
+
+    
+
+

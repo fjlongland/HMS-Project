@@ -13,6 +13,7 @@ document.getElementById('btnLogin').addEventListener('click', async function(){
         console.log(document.cookie)
     }
 
+    window.location.href = "./displayPAge.html"
     
 });
 async function loginUser(username, password){
@@ -98,4 +99,28 @@ document.getElementById('uploadButton').addEventListener('click', async function
     }
 });
 
+document.getElementById("videoList").addEventListener("DOMContentLoaded", async function(){
 
+    const items = await fetch("http://127.0.0.1:8000/posts/video/", {
+        method: 'GET',
+        headers: {
+            'Authorization': 'Bearer'+document.cookie
+        }
+    })
+});
+
+function getJWT(){
+    const value = '; '+document.cookie;
+    const parts = value.split('; JWT=');
+
+    if (parts.length === 2) return parts.pop().split(';').shift();
+    return null;
+}
+
+document.getElementById("doit").addEventListener('click', function(){
+const token = getJWT();
+
+console.log("button pressed")
+console.log(token);
+
+})
