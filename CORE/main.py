@@ -4,7 +4,7 @@ from fastapi.middleware.cors import CORSMiddleware
 #from sqlalchemy.orm import Session
 from . import models
 #import unittest
-from .routers import users, auth, posts
+from .routers import users, auth, posts, assignments
 from .database import engine
 from .config import settings
 import os
@@ -41,6 +41,7 @@ app.add_middleware(
 app.include_router(posts.router)
 app.include_router(users.router)
 app.include_router(auth.router)
+app.include_router(assignments.router)
 
 #first API call for testing
 @app.get("/")
