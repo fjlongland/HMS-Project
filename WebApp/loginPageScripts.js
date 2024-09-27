@@ -11,9 +11,12 @@ document.getElementById('btnLogin').addEventListener('click', async function(){
     if(token){
         document.cookie = "JWT="+token;
         console.log(document.cookie)
+        window.location.href = "./homePage.html"
+    }
+    else{
+        alert("invalid credentials, please try again.")
     }
 
-    window.location.href = "./homePage.html"
     
 });
 async function loginUser(username, password){
@@ -59,16 +62,6 @@ document.getElementById('fileInput').addEventListener('change', function(event){
     }
 });
 
-document.getElementById("videoList").addEventListener("DOMContentLoaded", async function(){
-
-    const items = await fetch("http://127.0.0.1:8000/posts/video/", {
-        method: 'GET',
-        headers: {
-            'Authorization': 'Bearer'+document.cookie
-        }
-    })
-});
-
 function getJWT(){
     const value = '; '+document.cookie;
     const parts = value.split('; JWT=');
@@ -76,11 +69,3 @@ function getJWT(){
     if (parts.length === 2) return parts.pop().split(';').shift();
     return null;
 }
-
-document.getElementById("doit").addEventListener('click', function(){
-const token = getJWT();
-
-console.log("button pressed")
-console.log(token);
-
-})
