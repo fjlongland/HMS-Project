@@ -6,11 +6,11 @@ from . import models
 #import unittest
 from .routers import users, auth, posts, assignments, feedback
 from .database import engine
-from .config import settings
-import os
+#from .config import settings
+#import os
 #import subprocess
 
-
+#http://127.0.0.1:8000/docs
 #if __name__=="__main__":
     #subprocess.run(["uvicorn", "CORE.main:app", "--reload"])
 
@@ -55,14 +55,3 @@ async def root():
 
 #//////////////////////////////////////////////////////////////
 
-#TODO change all sql to sqlalchemy
-
-#TODO: look into what DB to use and 
-#      make shure the cloud hosting works.
-
-#TODO: build user table and finish
-#      user registration and login.(Auth can be handled later)
-
-#TODO: figer out what to do next.
-
-#testing 123
