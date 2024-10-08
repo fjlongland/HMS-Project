@@ -5,12 +5,26 @@ document.addEventListener("DOMContentLoaded", async function(){
     const userType = await fetchType();
 
     const heading = document.getElementById("user_type")
+    const assButton = document.getElementById("btnAssignments");
 
     if(userType){
         heading.textContent = "user type: "+userType;
     }
     else{
         heading.textContent = "Welcome guest"
+    }
+
+    if (userType == "ADMIN"){
+        alert("Welcome Sir");
+    }
+
+    if (userType == "PROFESSOR"){
+        
+
+    }
+
+    if (userType == "STUDENT"){
+        assButton.style.display = 'none';
     }
 
     async function fetchType(){
@@ -44,6 +58,5 @@ document.addEventListener("DOMContentLoaded", async function(){
         if (parts.length === 2) return parts.pop().split(';').shift();
         return null;
     }
-
-
 });
+

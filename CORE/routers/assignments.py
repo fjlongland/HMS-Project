@@ -1,5 +1,5 @@
 from .. import models, schemas, oauth2
-from fastapi import Depends, APIRouter, HTTPException, status, Response, File, UploadFile
+from fastapi import Depends, APIRouter, HTTPException, status, Response, Form, File, UploadFile
 from fastapi.responses import JSONResponse
 #from typing import List
 from sqlalchemy.orm import Session
@@ -21,10 +21,12 @@ def get_all_ass(db: Session = Depends(get_db)):
 
 
 @router.post("/")
-def create_new_ass(assign: schemas.AssignmentCreate,
+def create_new_ass(title: str = Form(...),
+                   content: str = Form(...),
+                   #assign: schemas.AssignmentCreate,
                    db: Session = Depends(get_db),
                    current_user: int = Depends(oauth2.get_current_user)):
-    new_ass = models.Assignment(user_id_fk=current_user.user_id, **assign.dict())
+    new_ass = models.Assignment(user_id_fk=current_user.user_id, title=title, content=content)
 
     db.add(new_ass)
     db.commit()

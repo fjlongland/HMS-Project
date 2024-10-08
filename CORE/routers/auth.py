@@ -24,3 +24,4 @@ def login(user_credentials: OAuth2PasswordRequestForm = Depends(),
 
     return {"token": access_token, 
             "token_type": "bearer"}
+
