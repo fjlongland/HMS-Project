@@ -44,3 +44,16 @@ class Assignment(Base):
     created_at = Column(TIMESTAMP(timezone=True), nullable=False, server_default=text('now()'))
 
     owner = relationship("User")
+
+
+class Feedback(Base):
+    __tablename__="feedback"
+
+    feedback_id = Column(Integer, primary_key=True, nullable=False)
+    user_id_fk = Column(Integer, ForeignKey("users.user_id", ondelete="CASCADE", onupdate="CASCADE"), nullable=False)
+    post_id_fk = Column(Integer, ForeignKey("posts.post_id", ondelete="CASCADE", onupdate="CASCADE"), nullable=False)
+    content = Column(String, nullable=False)
+    created_at = Column(TIMESTAMP(timezone=True), nullable=False, server_default=text('now()'))
+
+    owner = relationship("User")
+    owner = relationship("Post")

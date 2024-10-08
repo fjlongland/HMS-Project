@@ -1,4 +1,4 @@
-from .. import models, schemas, utils, storage
+from .. import models, schemas, utils, storage, oauth2
 from fastapi import Depends, APIRouter, HTTPException, status, Response, Form
 from typing import List
 from sqlalchemy.orm import Session
@@ -75,3 +75,15 @@ def delete_user(id: int,
     db.commit()
 
     return Response(status_code=status.HTTP_204_NO_CONTENT)
+
+#///////////////////////////////////////////////////////////////////////
+
+@router.get("/type/")
+def get_user_type(db: Session = Depends(get_db), 
+                  current_user: int = Depends(oauth2.get_current_user) ):
+
+    type = db.query(models.User.user_type).filter(models.User.user_id == current_user.user_id).first()
+
+    return {"user_type": type[0]}
+
+    

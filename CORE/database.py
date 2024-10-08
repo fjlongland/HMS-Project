@@ -12,6 +12,7 @@ from .config import settings
 password = settings.db_password
 encoded_password = urllib.parse.quote_plus(password)
 
+#connection string in the form of postgesql://(username):(password)@(hostname):(database port)/(database name)
 DB_URL = f"postgresql://{settings.db_username}:{encoded_password}@{settings.db_hostname}:{settings.db_port}/{settings.db_name}"
 
 engine = create_engine(DB_URL)
