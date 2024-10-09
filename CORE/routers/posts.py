@@ -1,5 +1,5 @@
 from .. import models, schemas, oauth2
-from fastapi import Depends, APIRouter, HTTPException, status, Response, File, UploadFile
+from fastapi import Depends, APIRouter, HTTPException, status, Response, File, UploadFile, Form
 from fastapi.responses import JSONResponse
 from typing import List
 from sqlalchemy.orm import Session
@@ -76,7 +76,8 @@ def delete_post(id: int,
 
 #////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 @router.post("/upload/")
-async def upload_file_from_frontend(file: UploadFile = File(...), 
+async def upload_file_from_frontend(id: int = Form(...),
+                                    file: UploadFile = File(...), 
                                     current_user: int = Depends(oauth2.get_current_user),
                                     db: Session = Depends(get_db)):
     
@@ -88,12 +89,12 @@ async def upload_file_from_frontend(file: UploadFile = File(...),
         with open(file_location, "wb") as buffer:
             shutil.copyfileobj(file.file, buffer)
 
-        new_post = models.Post(user_id_fk=current_user.user_id, 
+        new_post = models.Post(user_id_fk=current_user.user_id,
+                               ass_id_fk=id, 
                                title=file.filename, 
                                post_type="video", 
                                content="video", 
-                               post_url=file_location, 
-                               ass_id_fk= 3)
+                               post_url=file_location)
         db.add(new_post)
         db.commit()
 

@@ -36,6 +36,9 @@ document.addEventListener("DOMContentLoaded", async function(){
                     console.log("success: "+ data.content);
                     const display = document.getElementById("displayContent");
                     display.textContent = data.content;
+                    const id = data.ass_id;
+                    document.cookie = "ass_id="+id+"; path=/";
+                    console.log(document.cookie);
                 }
             }
             catch (error){

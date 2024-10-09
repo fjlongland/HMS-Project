@@ -93,7 +93,7 @@ def display_all_ass(db: Session = Depends(get_db)):
 def get_by_title(title: str, 
                  db: Session = Depends(get_db)):
     
-    content = db.query(models.Assignment.content).filter(models.Assignment.title == title).first()
+    assignment = db.query(models.Assignment.ass_id, models.Assignment.content).filter(models.Assignment.title == title).first()
 
-    return {"content": content[0]}
+    return {"ass_id": assignment[0], "content": assignment[1]}
     

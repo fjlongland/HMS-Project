@@ -1,6 +1,7 @@
 document.getElementById('uploadButton').addEventListener('click', async function(){
     const fileInput = document.getElementById('fileInput');
     const file = fileInput.files[0];
+    const id = getCookie('ass_id');
 
     if (file) {
         if (file.type !== 'video/mp4'){
@@ -10,6 +11,7 @@ document.getElementById('uploadButton').addEventListener('click', async function
 
         const formData = new FormData();
         formData.append('file', file);
+        formData.append('id', id)
 
         const token = getJWT();
 
@@ -46,5 +48,15 @@ function getJWT(){
     const parts = value.split('; JWT=');
 
     if (parts.length === 2) return parts.pop().split(';').shift();
+    return null;
+}
+
+function getCookie(name){
+    const value = "; "+document.cookie;
+    const parts = value.split("; "+name+"=");
+
+    if (parts.length === 2){
+        return parts.pop().split(";").shift();
+    }
     return null;
 }
