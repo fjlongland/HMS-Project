@@ -1,5 +1,5 @@
 from .. import models, schemas, oauth2
-from fastapi import Depends, APIRouter, HTTPException, status, Response, Form, File, UploadFile
+from fastapi import Depends, APIRouter, HTTPException, status, Response, Form, File, UploadFile, Query
 from fastapi.responses import JSONResponse
 #from typing import List
 from sqlalchemy.orm import Session
@@ -87,4 +87,13 @@ def display_all_ass(db: Session = Depends(get_db)):
         return assignment_titles
     except Exception as e:
         raise HTTPException(status_code=status.HTTP_500_INTERNAL_SERVER_ERROR, detail=f"an error occured: {str(e)}")
+    
+
+@router.get("/content/{title}")
+def get_by_title(title: str, 
+                 db: Session = Depends(get_db)):
+    
+    content = db.query(models.Assignment.content).filter(models.Assignment.title == title).first()
+
+    return {"content": content[0]}
     

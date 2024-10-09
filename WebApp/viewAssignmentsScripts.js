@@ -9,8 +9,40 @@ document.addEventListener("DOMContentLoaded", async function(){
         const li = document.createElement('li');
         li.textContent = item;
 
-        li.addEventListener('click', function(){
-            alert("you clicked on "+item);
+        li.addEventListener('click', async function(){
+            const assTitle = item;
+            document.cookie = "assignmentTitle="+assTitle+"; path=/";
+            const title = getTitle();
+            const token = getJWT();
+            try{
+                const formdata = new URLSearchParams();
+                formdata.append("title", title)
+                const response = await fetch("http://127.0.0.1:8000/assignment/content/"+title, {
+                    method: "GET",
+                    headers: {
+                        'Content-Type': 'application/x-www-form-urlencoded',
+                        'Authorization': 'Bearer '+token,
+                    },
+                });
+
+                if (!response.ok){
+                    const errorData = await response.json();
+                    console.error("error response: ", errorData);
+                    throw new Error("Network response was not ok: "+response.status);
+                }
+
+                const data = await response.json();
+                if (data.content){
+                    console.log("success: "+ data.content);
+                    const display = document.getElementById("displayContent");
+                    display.textContent = data.content;
+                }
+            }
+            catch (error){
+                console.error("oops something went wrong: ", error);
+                alert("Oops something went wrong with displaying the content.");
+                return null;
+            }
         })
 
         listElements.appendChild(li);
@@ -18,6 +50,12 @@ document.addEventListener("DOMContentLoaded", async function(){
 });
 
 
+function getTitle(){
+    const value = "; "+document.cookie;
+    const parts = value.split("; assignmentTitle=");
+    if (parts.length === 2) return parts.pop().split(";").shift();
+    return null;
+}
 
 
 function getJWT(){
