@@ -72,3 +72,19 @@ def delete_assignment(id: int,
 
     return Response(status_code=status.HTTP_204_NO_CONTENT)
 
+#/////////////////////////////////////////////////////////////////////\
+
+@router.get("/list/")
+def display_all_ass(db: Session = Depends(get_db)):
+    try:
+        assignments = db.query(models.Assignment.title).all()
+
+        if not assignments:
+            raise HTTPException(status_code=status.HTTP_500_INTERNAL_SERVER_ERROR, detail="no assignments found")
+        
+        assignment_titles=[{"title": title[0]} for title in assignments]
+
+        return assignment_titles
+    except Exception as e:
+        raise HTTPException(status_code=status.HTTP_500_INTERNAL_SERVER_ERROR, detail=f"an error occured: {str(e)}")
+    
