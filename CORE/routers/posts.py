@@ -115,6 +115,17 @@ async def list_videos(db: Session = Depends(get_db),
 
     return videos
 
+@router.get("/video/{id}")
+async def list_videos_id(id: int, 
+                      db: Session = Depends(get_db)):
+    
+    video_titles = db.query(models.Post.title).filter(models.Post.post_id == id,
+                                                      models.Post.post_type == "video").all()
+    
+    videos = [{"title": title[0]} for title in video_titles]
+
+    return videos
+
     
 
 
