@@ -7,6 +7,7 @@ from ..database import *
 import shutil
 from pathlib import Path
 
+
 router = APIRouter(prefix="/posts", 
                    tags=["posts"])
 #get list of all posts
@@ -126,6 +127,22 @@ async def list_videos_id(id: int,
 
     return videos
 
+@router.get("/video_id/{title}")
+async def get_post_id(title: str, 
+                      db: Session = Depends(get_db)):
     
+    id = db.query(models.Post.post_id).filter(models.Post.title == title).first()
 
+    return {"post_id": id[0]}
+
+    
+@router.get("/video_url/{id}")
+async def get_post_url(id: int, 
+                       db: Session = Depends(get_db)):
+    
+    post = db.query(models.Post).filter(models.Post.post_id == id).first()
+
+    public_url = f"http://127.0.0.1:8000/videos/{post.user_id_fk}/{post.title}.mp4"
+
+    return {"post_url": public_url[0]}
 

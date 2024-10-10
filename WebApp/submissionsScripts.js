@@ -13,8 +13,38 @@ document.addEventListener("DOMContentLoaded", async function(){
         const li = document.createElement('li');
         li.textContent = item;
 
-        li.addEventListener('click', function(){
-            window.location.href = ""
+        li.addEventListener('click', async function(){
+            try{
+                const token = getJWT();
+                const post_title = item;
+                const response = await fetch("http://127.0.0.1:8000/posts/video_id/"+post_title, {
+                    method: "GET",
+                    headers: {
+                        'Content-Type': 'application/x-www-form-urlencoded',
+                        'Authorization': 'Bearer '+token,
+                    },
+                });
+
+                if (!response.ok){
+                    const errorData = await response.json();
+                    console.error("error response: ", errorData);
+                    throw new Error("Network response was not ok: "+response.status);
+                }
+
+                const data = await response.json();
+                if(data.post_id){
+                    console.log("Post is: "+ data.post_id);
+                    const pid = data.post_id;
+                    document.cookie = "post_id="+pid+"; path=/";
+                    window.location.href = "./feedback.html"
+                }
+                
+            }
+            catch (error){
+                console.error("oops something went wrong: ", error);
+                alert("Oops something went wrong with selecting the content.");
+                return null;
+            }
         });
         listElements.appendChild(li);
     });

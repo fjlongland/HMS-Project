@@ -9,6 +9,7 @@ from .database import engine
 #from .config import settings
 #import os
 #import subprocess
+from fastapi.staticfiles import StaticFiles
 
 #http://127.0.0.1:8000/docs
 #if __name__=="__main__":
@@ -18,6 +19,8 @@ models.Base.metadata.create_all(bind=engine)
 
 #init app
 app = FastAPI()
+
+app.mount("/videos", StaticFiles(directory="C:/Users/Admin/Desktop/HMS tets file destination/Destination"), name="videos")
 
 #gives front and backend permission to send and recieve data
 origins = [
