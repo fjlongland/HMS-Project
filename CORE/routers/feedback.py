@@ -29,3 +29,11 @@ def create_feedback(content: str = Form(...),
     db.refresh(new_feedback)
 
     return new_feedback
+
+@router.get("/display/{post_id}")
+def display_feedback(post_id: str, 
+                     db: Session = Depends(get_db)):
+
+    feedback = db.query(models.Feedback.content).filter(models.Feedback.post_id_fk == post_id).first()
+
+    return {"content": feedback[0]}

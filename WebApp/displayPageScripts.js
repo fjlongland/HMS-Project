@@ -1,14 +1,7 @@
-document.getElementById("doit").addEventListener('click', function(event) {
-    event.preventDefault();
-    console.log("button press");
-});
-
 document.addEventListener("DOMContentLoaded", async function(){
 
     const list = await fetchItems();
 
-
-    
     const listElement = document.getElementById('videoList');
     listElement.innerHTML = '';
 
@@ -16,8 +9,39 @@ document.addEventListener("DOMContentLoaded", async function(){
         const li = document.createElement('li');
         li.textContent = item;
 
-        li.addEventListener('click', function(){
-            alert('you clicked on '+item);
+        li.addEventListener('click', async function(){
+            const display = document.getElementById("feedback");
+            const title = item;
+            const token = getJWT()
+
+            try{
+                const response = await fetch("http://127.0.0.1:8000/posts/video_id/"+title, {
+                    method: "GET",
+                    headers:{
+                        'Content-Type': 'application/x-www-form-urlencoded',
+                        'Authorization': 'Bearer '+token,
+                    },
+                });
+
+                if (!response.ok){
+                    const errorData = await response.json();
+                    console.error("error response: ", errorData);
+                    throw new Error("Network response was not ok: "+response.status);
+                }
+
+                const data = await response.json();
+                if (data.post_id){
+                    console.log("success: "+ data.post_id);
+                    const disp = await getFeedback(data.post_id);
+                    display.textContent = disp;
+                }
+            }
+            catch (error){
+                console.error("oops something went wrong: ", error);
+                alert("Oops something went wrong with selecting the content.");
+                return null;
+            }
+            
         })
 
         listElement.appendChild(li);
@@ -59,5 +83,29 @@ async function fetchItems(){
     }
     catch(error){
         console.error("Error fething items: ", error);
+    }
+}
+
+async function getFeedback(id){
+    try{
+        const response = await fetch("http://127.0.0.1:8000/feedback/display/"+id, {
+            method: "GET"
+        })
+        if (!response.ok){
+            const errorData = await response.json();
+            console.error("error response: ", errorData);
+            throw new Error("Network response was not ok: "+response.status);
+        }
+
+        const data = await response.json();
+        if(data.content){
+            console.log("success: ", data.content);
+            return data.content;
+        }
+    }
+    catch (error){
+        console.error("oops something went wrong: ", error);
+        alert("Oops something went wrong with selecting the content.");
+        return null;
     }
 }
