@@ -1,4 +1,4 @@
-from .. import models, schemas, oauth2
+from .. import models, schemas, oauth2, utils
 from fastapi import Depends, APIRouter, HTTPException, status, Response, File, UploadFile, Form
 from fastapi.responses import JSONResponse
 from typing import List
@@ -6,6 +6,7 @@ from sqlalchemy.orm import Session
 from ..database import *
 import shutil
 from pathlib import Path
+
 
 
 router = APIRouter(prefix="/posts", 
@@ -98,6 +99,8 @@ async def upload_file_from_frontend(id: int = Form(...),
                                post_url=file_location)
         db.add(new_post)
         db.commit()
+
+        utils.upload_file(bucket_name="submission-storage",file_name=file_location, subdirectory=current_user.user_id)
 
         return JSONResponse(content={"filename": file.filename})
     

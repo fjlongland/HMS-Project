@@ -8,7 +8,7 @@ from .routers import users, auth, posts, assignments, feedback
 from .database import engine
 #from .config import settings
 #import os
-#import subprocess
+import subprocess
 from fastapi.staticfiles import StaticFiles
 
 #http://127.0.0.1:8000/docs
@@ -52,9 +52,14 @@ app.include_router(feedback.router)
 async def root():
     return{"message": "Hi There Traveler!"}
 
+
+if __name__ == "__main__":
+    # Start the uvicorn server
+    subprocess.run(["uvicorn", "CORE.main:app", "--reload"])
+
 #//////////////////USE THIS TO STARTUP THE APP/////////////////
 
-#uvicorn CORE.main:app --reload
+#python -m CORE.main
 
 #//////////////////////////////////////////////////////////////
 
