@@ -50,6 +50,15 @@ document.addEventListener("DOMContentLoaded", async function(){
 
         listElements.appendChild(li);
     });
+
+
+    const user_type = getCookie("userType");
+    const viewButton = document.getElementById("btnViewSubmission");
+    console.log(user_type);
+
+    if (user_type == "STUDENT"){
+        viewButton.style.display = 'none';
+    }
 });
 
 
@@ -97,4 +106,13 @@ async function fetchItems(){
     catch(error){
         console.error("Error fething items: ", error);
     }
+}
+function getCookie(name){
+    const value = "; "+document.cookie;
+    const parts = value.split("; "+name+"=");
+
+    if (parts.length === 2){
+        return parts.pop().split(";").shift();
+    }
+    return null;
 }
