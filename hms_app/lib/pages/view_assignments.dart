@@ -23,34 +23,38 @@ class ViewAssignments extends StatelessWidget {
           elevation: 0.0,
           centerTitle: true,
         ),
-        body: Padding(
-            padding: const EdgeInsets.all(16.0),
-            child:
-                Column(mainAxisAlignment: MainAxisAlignment.center, children: [
-              const Text("Assignments",
-                  style: TextStyle(
-                      fontSize: 24,
-                      fontWeight: FontWeight.bold,
-                      color: Colors.black)),
-              const SizedBox(height: 24.0),
-              Expanded(
-                  child: ListView.builder(
-                      itemCount: assignments.length,
-                      itemBuilder: (context, index) {
-                        return Card(
-                          margin: const EdgeInsets.symmetric(vertical: 8.0),
-                          child: ListTile(
-                            title: Text(assignments[index]),
-                            onTap: () {
-                              Navigator.push(
-                                  context,
-                                  MaterialPageRoute(
-                                      builder: (context) =>
-                                          const Submission()));
-                            },
-                          ),
-                        );
-                      }))
-            ])));
+        body: Center(
+          child: Padding(
+              padding: const EdgeInsets.all(16.0),
+              child: Column(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    const Text("Assignments",
+                        style: TextStyle(
+                            fontSize: 24,
+                            fontWeight: FontWeight.bold,
+                            color: Colors.black)),
+                    const SizedBox(height: 24.0),
+                    Expanded(
+                        child: ListView.builder(
+                            itemCount: assignments.length,
+                            itemBuilder: (context, index) {
+                              return Card(
+                                margin:
+                                    const EdgeInsets.symmetric(vertical: 8.0),
+                                child: ListTile(
+                                  title: Text(assignments[index]),
+                                  onTap: () {
+                                    Navigator.push(
+                                        context,
+                                        MaterialPageRoute(
+                                            builder: (context) =>
+                                                const Submission()));
+                                  },
+                                ),
+                              );
+                            }))
+                  ])),
+        ));
   }
 }
