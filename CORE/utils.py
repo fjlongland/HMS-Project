@@ -43,7 +43,7 @@ def upload_file(bucket_name, file_name, subdirectory, object_name=None):
 
 
 
-def generate_url(bucket_name, object_name, expiration=3600):
+def generate_url(bucket_name, object_name, expiration=None):
 
     s3_client = boto3.client('s3')
 
