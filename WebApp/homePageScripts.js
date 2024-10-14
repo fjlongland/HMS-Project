@@ -3,8 +3,9 @@ document.addEventListener("DOMContentLoaded", async function(){
     console.log("Im Working");
 
     const userType = await fetchType();
+    document.cookie = "userType="+userType+"; path=/";
 
-    const heading = document.getElementById("user_type")
+    const heading = document.getElementById("user_type");
     const assButton = document.getElementById("btnAssignments");
 
     if(userType){
