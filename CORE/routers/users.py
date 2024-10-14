@@ -30,9 +30,8 @@ def add_new_user(username: str = Form(...),
     db.commit()
     db.refresh(new_user)
 
-    if user_type == "ADMIN" or "PROFFESSOR":
 
-        storage.add_new_dir(str(new_user.user_id))
+    storage.add_new_dir(str(new_user.user_id))
 
     return new_user
 

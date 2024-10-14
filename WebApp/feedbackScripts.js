@@ -17,17 +17,20 @@ document.addEventListener("DOMContentLoaded", async function(){
     }
 
     const data = await response.json();
-    console.log("raw data: "+ data);
+    console.log("raw data: "+ JSON.stringify(data));
 
     if (data.post_url){
-        console.log(data.post_url)
+        const usable_url = JSON.stringify(data.post_url);
+        console.log(usable_url);
+
         source.src = data.post_url;
+
+        video.load();
+        video.play();
     }
-
-    
-
-    video.load();
-    video.play();
+    else {
+        console.log("wtf");
+    }
 })
 
 document.getElementById("btnSubmit").addEventListener('click', async function(){

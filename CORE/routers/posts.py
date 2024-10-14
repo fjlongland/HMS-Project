@@ -91,16 +91,18 @@ async def upload_file_from_frontend(id: int = Form(...),
         with open(file_location, "wb") as buffer:
             shutil.copyfileobj(file.file, buffer)
 
+        url = utils.upload_file(bucket_name="submission-storage",file_name=file_location, subdirectory=current_user.user_id)
+
         new_post = models.Post(user_id_fk=current_user.user_id,
                                ass_id_fk=id, 
                                title=file.filename, 
                                post_type="video", 
                                content="video", 
-                               post_url=file_location)
+                               post_url=url)
         db.add(new_post)
         db.commit()
 
-        utils.upload_file(bucket_name="submission-storage",file_name=file_location, subdirectory=current_user.user_id)
+        
 
         return JSONResponse(content={"filename": file.filename})
     
@@ -123,7 +125,7 @@ async def list_videos(db: Session = Depends(get_db),
 async def list_videos_id(id: int, 
                       db: Session = Depends(get_db)):
     
-    video_titles = db.query(models.Post.title).filter(models.Post.post_id == id,
+    video_titles = db.query(models.Post.title).filter(models.Post.ass_id_fk == id,
                                                       models.Post.post_type == "video").all()
     
     videos = [{"title": title[0]} for title in video_titles]
@@ -145,7 +147,8 @@ async def get_post_url(id: int,
     
     post = db.query(models.Post).filter(models.Post.post_id == id).first()
 
-    public_url = f"http://127.0.0.1:8000/videos/{post.user_id_fk}/{post.title}.mp4"
-
-    return {"post_url": public_url[0]}
+    #public_url = f"http://127.0.0.1:8000/videos/{post.user_id_fk}/{post.title}.mp4"
+    public_url = post.post_url
+    
+    return {"post_url": public_url}
 
