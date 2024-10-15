@@ -2,7 +2,7 @@ from fastapi import FastAPI#, Depends, Request
 from fastapi.middleware.cors import CORSMiddleware
 #from . import database
 #from sqlalchemy.orm import Session
-from . import models
+from . import models, utils
 #import unittest
 from .routers import users, auth, posts, assignments, feedback
 from .database import engine
@@ -10,6 +10,7 @@ from .database import engine
 #import os
 import subprocess
 from fastapi.staticfiles import StaticFiles
+
 
 #http://127.0.0.1:8000/docs
 #if __name__=="__main__":
@@ -21,6 +22,8 @@ models.Base.metadata.create_all(bind=engine)
 app = FastAPI()
 
 app.mount("/videos", StaticFiles(directory="C:/Users/Admin/Desktop/HMS tets file destination/Destination"), name="videos")
+
+
 
 #gives front and backend permission to send and recieve data
 origins = [
@@ -51,6 +54,14 @@ app.include_router(feedback.router)
 @app.get("/")
 async def root():
     return{"message": "Hi There Traveler!"}
+
+@app.on_event("startup")
+async def startup_event():
+    utils.logger.info("Application Startup")
+
+@app.on_event("shutdown")
+async def shutdown_event():
+    utils.logger.info("Application shut down")
 
 
 if __name__ == "__main__":

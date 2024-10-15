@@ -1,4 +1,4 @@
-from .. import models, schemas, oauth2
+from .. import models, schemas, oauth2, utils
 from fastapi import Depends, APIRouter, HTTPException, status, Response, Form, File, UploadFile, Query
 from fastapi.responses import JSONResponse
 #from typing import List
@@ -31,6 +31,8 @@ def create_new_ass(title: str = Form(...),
     db.add(new_ass)
     db.commit()
     db.refresh(new_ass)
+
+    utils.logger(f"User: {current_user.user_id} posted new assignment with title: {title}")
 
     return new_ass
 

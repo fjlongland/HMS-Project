@@ -1,6 +1,7 @@
 from passlib.context import CryptContext
 import boto3
 from botocore.exceptions import NoCredentialsError, ClientError
+import logging
 
 pwd_context = CryptContext(schemes=["bcrypt"], 
                            deprecated="auto")
@@ -57,3 +58,18 @@ def generate_url(bucket_name, object_name, expiration=None):
         return None
 
     return response
+
+
+logging.basicConfig(
+    level=logging.INFO,
+    format="%(asctime)s - %(name)s - %(levelname)s - %(message)s",
+    handlers=[logging.StreamHandler()]
+)
+
+logger = logging.getLogger("fastapi_logger")
+
+file_handler = logging.FileHandler("app.log")
+file_handler.setLevel(logging.INFO)
+file_handler.setFormatter(logging.Formatter("%(asctime)s - %(name)s - %(levelname)s - %(message)s"))
+
+logger.addHandler(file_handler)
