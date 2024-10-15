@@ -60,3 +60,7 @@ class AssignmentCreate(BaseModel):
 
     class Config:
         orm_mode = True
+
+class LoginRequest(BaseModel):
+    username: str
+    password: str
