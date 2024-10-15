@@ -1,4 +1,4 @@
-from .. import models, schemas, oauth2
+from .. import models, schemas, oauth2, utils
 from fastapi import Depends, APIRouter, Form, HTTPException, status, Response, File, UploadFile
 from fastapi.responses import JSONResponse
 from typing import List
@@ -24,6 +24,9 @@ def create_feedback(content: str = Form(...),
     
     new_feedback = models.Feedback(user_id_fk = currnemt_user.user_id, post_id_fk=post_id_fk, content=content)
 
+    utils.logger(f"User: {currnemt_user.user_id}, posted feedback on post: {post_id_fk}")
+
+
     db.add(new_feedback)
     db.commit()
     db.refresh(new_feedback)
@@ -35,5 +38,7 @@ def display_feedback(post_id: str,
                      db: Session = Depends(get_db)):
 
     feedback = db.query(models.Feedback.content).filter(models.Feedback.post_id_fk == post_id).first()
+
+    utils.logger(f"feedback viewed by user")
 
     return {"content": feedback[0]}

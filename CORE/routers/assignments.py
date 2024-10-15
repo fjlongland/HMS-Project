@@ -86,6 +86,8 @@ def display_all_ass(db: Session = Depends(get_db)):
         
         assignment_titles=[{"title": title[0]} for title in assignments]
 
+        utils.logger("frontend request for list of assignments")
+
         return assignment_titles
     except Exception as e:
         raise HTTPException(status_code=status.HTTP_500_INTERNAL_SERVER_ERROR, detail=f"an error occured: {str(e)}")
@@ -96,6 +98,8 @@ def get_by_title(title: str,
                  db: Session = Depends(get_db)):
     
     assignment = db.query(models.Assignment.ass_id, models.Assignment.content).filter(models.Assignment.title == title).first()
+
+    utils.logger(f"webapp request for specific assignment: {title}")
 
     return {"ass_id": assignment[0], "content": assignment[1]}
     

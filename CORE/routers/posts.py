@@ -102,7 +102,7 @@ async def upload_file_from_frontend(id: int = Form(...),
         db.add(new_post)
         db.commit()
 
-        
+        utils.logger(f"New post created (id:{file.filename}) by user: {current_user.user_id}")
 
         return JSONResponse(content={"filename": file.filename})
     
@@ -119,6 +119,8 @@ async def list_videos(db: Session = Depends(get_db),
     
     videos = [{"title": title[0]} for title in video_titles]
 
+    utils.logger(f"frontend request to list all posts for user: {currnet_user.user_id}")
+
     return videos
 
 @router.get("/video/{id}")
@@ -130,6 +132,8 @@ async def list_videos_id(id: int,
     
     videos = [{"title": title[0]} for title in video_titles]
 
+    utils.logger(f"request to list all submissions for assignment id:{id}")
+
     return videos
 
 @router.get("/video_id/{title}")
@@ -137,6 +141,8 @@ async def get_post_id(title: str,
                       db: Session = Depends(get_db)):
     
     id = db.query(models.Post.post_id).filter(models.Post.title == title).first()
+
+    utils.logger(f"request for id of video titled: {title}")
 
     return {"post_id": id[0]}
 
@@ -149,6 +155,8 @@ async def get_post_url(id: int,
 
     #public_url = f"http://127.0.0.1:8000/videos/{post.user_id_fk}/{post.title}.mp4"
     public_url = post.post_url
+
+    utils.logger(f"request for video url for video id: {id}")
     
     return {"post_url": public_url}
 
