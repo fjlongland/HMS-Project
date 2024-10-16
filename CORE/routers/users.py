@@ -88,20 +88,3 @@ def get_user_type(db: Session = Depends(get_db),
 
     return {"user_type": type[0]}
 
-@router.post("/app_login")
-def login(request: schemas.LoginRequest,
-          db: Session = Depends(get_db)):
-    user = db.query(models.User).filter(models.User.username == request.username).first()
-
-    if not user:
-        raise HTTPException(status_code=status.HTTP_404_NOT_FOUND, detail="user not found")
-    
-    checkpassword = utils.hash(request.password)
-
-    if user.password != checkpassword:
-        raise HTTPException(status_code=status.HTTP_400_BAD_REQUEST, detail="incorrect password")
-    
-    utils.logger.info(f"app request to login user: {user.user_id}")
-
-    return {"user_id": user.user_id, "user_type": user.user_type}
-    
