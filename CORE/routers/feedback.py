@@ -24,7 +24,7 @@ def create_feedback(content: str = Form(...),
     
     new_feedback = models.Feedback(user_id_fk = currnemt_user.user_id, post_id_fk=post_id_fk, content=content)
 
-    utils.logger(f"User: {currnemt_user.user_id}, posted feedback on post: {post_id_fk}")
+    utils.logger.info(f"User: {currnemt_user.user_id}, posted feedback on post: {post_id_fk}")
 
 
     db.add(new_feedback)
@@ -39,6 +39,6 @@ def display_feedback(post_id: str,
 
     feedback = db.query(models.Feedback.content).filter(models.Feedback.post_id_fk == post_id).first()
 
-    utils.logger(f"feedback viewed by user")
+    utils.logger.info(f"feedback viewed by user")
 
     return {"content": feedback[0]}

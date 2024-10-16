@@ -30,7 +30,7 @@ def add_new_user(username: str = Form(...),
     db.commit()
     db.refresh(new_user)
 
-    utils.logger(f"new user created with user_id: {new_user.user_id}")
+    utils.logger.info(f"new user created with user_id: {new_user.user_id}")
 
     storage.add_new_dir(str(new_user.user_id))
 
@@ -84,7 +84,7 @@ def get_user_type(db: Session = Depends(get_db),
 
     type = db.query(models.User.user_type).filter(models.User.user_id == current_user.user_id).first()
 
-    utils.logger(f"requet to get type of current user. id: {current_user.user_id}")
+    utils.logger.info(f"requet to get type of current user. id: {current_user.user_id}")
 
     return {"user_type": type[0]}
 
@@ -101,7 +101,7 @@ def login(request: schemas.LoginRequest,
     if user.password != checkpassword:
         raise HTTPException(status_code=status.HTTP_400_BAD_REQUEST, detail="incorrect password")
     
-    utils.logger(f"app request to login user: {user.user_id}")
+    utils.logger.info(f"app request to login user: {user.user_id}")
 
     return {"user_id": user.user_id, "user_type": user.user_type}
     

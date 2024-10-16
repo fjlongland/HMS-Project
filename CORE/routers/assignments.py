@@ -32,7 +32,7 @@ def create_new_ass(title: str = Form(...),
     db.commit()
     db.refresh(new_ass)
 
-    utils.logger(f"User: {current_user.user_id} posted new assignment with title: {title}")
+    utils.logger.info(f"User: {current_user.user_id} posted new assignment with title: {title}")
 
     return new_ass
 
@@ -86,7 +86,7 @@ def display_all_ass(db: Session = Depends(get_db)):
         
         assignment_titles=[{"title": title[0]} for title in assignments]
 
-        utils.logger("frontend request for list of assignments")
+        utils.logger.info("frontend request for list of assignments")
 
         return assignment_titles
     except Exception as e:
@@ -99,7 +99,7 @@ def get_by_title(title: str,
     
     assignment = db.query(models.Assignment.ass_id, models.Assignment.content).filter(models.Assignment.title == title).first()
 
-    utils.logger(f"webapp request for specific assignment: {title}")
+    utils.logger.info(f"webapp request for specific assignment: {title}")
 
     return {"ass_id": assignment[0], "content": assignment[1]}
     
